@@ -42,7 +42,7 @@ job-template-win: &job-template-win
      # install system dependencies
     - run: if ($env:PHP_TYPE -imatch "ts") { choco install php --package-parameters='"/ThreadSafe "' } else { choco install php }
     - run: choco install composer
-    - run: export PATH="$(powershell -Command '("Process", "Machine" | % { [Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", "" } | Select -Unique | % { cygpath $_ }) -Join ":"')"
+    #- run: export PATH="$(powershell -Command '("Process", "Machine" | % { [Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", "" } | Select -Unique | % { cygpath $_ }) -Join ":"')"
 
     # install PHP dependencies
     - run: $pecl_url = Join-Path "https://windows.php.net/downloads/pecl/releases/uv/0.2.4/php_uv-0.2.4-7.4-" $env:PHP_TYPE "-vc15-x64.zip" && Invoke-WebRequest -Uri $pecl_url -OutFile .\uv.zip
