@@ -33,6 +33,48 @@ job-template: &job-template
     - store_test_results:
         path: test-results
 
+job-template-win: &job-template-win
+  shell: powershell.exe
+  steps:
+    - checkout
+    
+     # install system dependencies
+    - if ($env:PHP_TYPE -imatch "ts") { choco install php --package-parameters='"/ThreadSafe "' } else { choco install php }
+    - choco install composer
+    - export PATH="$(powershell -Command '("Process", "Machine" | % { [Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", "" } | Select -Unique | % { cygpath $_ }) -Join ":"')"
+
+    # install PHP dependencies
+    - $pecl_url = Join-Path "https://windows.php.net/downloads/pecl/releases/uv/0.2.4/php_uv-0.2.4-7.4-" $env:PHP_TYPE "-vc15-x64.zip"
+    - Invoke-WebRequest -Uri $pecl_url -OutFile .\uv.zip
+    - Expand-Archive .\uv.zip -Destination .\uv
+    - Move-Item -Path .\uv\libuv.dll -Destination C:\Windows\System32\libuv.dll
+    - Move-Item -Path .\uv\php_uv.dll -Destination C:\ProgramData\chocolatey\php\ext\php_uv.dll
+    
+    # Add extensions to php.ini
+    - Add-Content C:\ProgramData\chocolatey\php\php.ini "`nextension=uv"
+    
+    # Download and cache dependencies
+    - restore_cache:
+        keys:
+          - dependencies
+
+    - run: composer install --no-interaction
+    #- run: composer require --dev pcov/clobber && vendor\bin\pcov clobber
+
+    - save_cache:
+        key: dependencies
+        paths:
+          - $HOME/.composer/cache/files
+
+    - run: php.exe -v
+    - run: mkdir test-results
+    - run: vendor\bin\phpunit --configuration phpunit.xml.dist --log-junit test-results\junit-report.xml --coverage-text
+    - store_test_results:
+        path: test-results
+
+orbs:
+  win: circleci/windows@1.0.0
+
 jobs:
   # pecl builds
   php-7.1:
@@ -148,8 +190,24 @@ jobs:
       TYPE: "git"
     <<: *job-template
 
+  # windows builds
+  php-7.4-win:
+    executor: win/default
+    environment:
+      PHP_TYPE: "nts"
+      TYPE: "pecl"
+    <<: *job-template-win
+
+  php-7.4-zts-win:
+    executor: win/default
+    environment:
+      PHP_TYPE: "ts"
+      TYPE: "pecl"
+    <<: *job-template-win
+    
+
 workflows:
-  version: 2
+  version: 2.1
   tests:
     jobs:
       - php-7.1
