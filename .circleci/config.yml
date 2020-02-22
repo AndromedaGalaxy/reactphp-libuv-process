@@ -47,7 +47,7 @@ job-template-win: &job-template-win
     # prevent console output errors ...
 
     # install PHP dependencies
-    - run: $ProgressPreference = 'SilentlyContinue'; $global:ProgressPreference = 'SilentlyContinue'; $link = 'https://windows.php.net/downloads/pecl/releases/uv/0.2.4/php_uv-0.2.4-7.4-'+$env:PHP_TYPE+'-vc15-x64.zip'; (new-object System.Net.WebClient).DownloadFile($link, '.\uv.zip')
+    - run: $ProgressPreference = 'SilentlyContinue'; $global:ProgressPreference = 'SilentlyContinue'; $link = 'https://windows.php.net/downloads/pecl/releases/uv/0.2.4/php_uv-0.2.4-7.4-'+$env:PHP_TYPE+'-vc15-x64.zip'; Invoke-WebRequest -Uri $link -OutFile .\uv.zip
     - run: $ProgressPreference = 'SilentlyContinue'; $global:ProgressPreference = 'SilentlyContinue'; Expand-Archive .\uv.zip -Destination .\uv
     - run: $ProgressPreference = 'SilentlyContinue'; $global:ProgressPreference = 'SilentlyContinue'; Move-Item -Path .\uv\libuv.dll -Destination C:\tools\php74\libuv.dll
     - run: $ProgressPreference = 'SilentlyContinue'; $global:ProgressPreference = 'SilentlyContinue'; Move-Item -Path .\uv\php_uv.dll -Destination C:\tools\php74\ext\php_uv.dll
