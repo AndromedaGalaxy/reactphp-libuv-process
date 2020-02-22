@@ -45,7 +45,7 @@ job-template-win: &job-template-win
     #- run: export PATH="$(powershell -Command '("Process", "Machine" | % { [Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", "" } | Select -Unique | % { cygpath $_ }) -Join ":"')"
 
     # install PHP dependencies
-    - run: $ProgressPreference = "SilentlyContinue" # prevent console output errors
+    - run: $progressPreference = 'silentlyContinue' # prevent console output errors
     - run: $link = 'https://windows.php.net/downloads/pecl/releases/uv/0.2.4/php_uv-0.2.4-7.4-'+$env:PHP_TYPE+'-vc15-x64.zip'; Invoke-WebRequest -Uri $link -OutFile .\uv.zip
     - run: Expand-Archive .\uv.zip -Destination .\uv
     - run: Move-Item -Path .\uv\libuv.dll -Destination C:\tools\php74\libuv.dll
