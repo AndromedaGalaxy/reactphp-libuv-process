@@ -79,56 +79,56 @@ orbs:
 
 jobs:
   # pecl builds
-  php-7.1:
+  php-71:
     docker:
       - image: circleci/php:7.1
     environment:
       TYPE: "pecl"
     <<: *job-template
 
-  php-7.1-zts:
+  php-71-zts:
     docker:
       - image: circleci/php:7.1-zts
     environment:
       TYPE: "pecl"
     <<: *job-template
 
-  php-7.2:
+  php-72:
     docker:
       - image: circleci/php:7.2
     environment:
       TYPE: "pecl"
     <<: *job-template
 
-  php-7.2-zts:
+  php-72-zts:
     docker:
       - image: circleci/php:7.2-zts
     environment:
       TYPE: "pecl"
     <<: *job-template
 
-  php-7.3:
+  php-73:
     docker:
       - image: circleci/php:7.3
     environment:
       TYPE: "pecl"
     <<: *job-template
 
-  php-7.3-zts:
+  php-73-zts:
     docker:
       - image: circleci/php:7.3-zts
     environment:
       TYPE: "pecl"
     <<: *job-template
 
-  php-7.4:
+  php-74:
     docker:
       - image: circleci/php:7.4
     environment:
       TYPE: "pecl"
     <<: *job-template
 
-  php-7.4-zts:
+  php-74-zts:
     docker:
       - image: circleci/php:7.4-zts
     environment:
@@ -136,56 +136,56 @@ jobs:
     <<: *job-template
 
   # git builds
-  php-7.1-git:
+  php-71-git:
     docker:
       - image: circleci/php:7.1
     environment:
       TYPE: "git"
     <<: *job-template
 
-  php-7.1-zts-git:
+  php-71-zts-git:
     docker:
       - image: circleci/php:7.1-zts
     environment:
       TYPE: "git"
     <<: *job-template
 
-  php-7.2-git:
+  php-72-git:
     docker:
       - image: circleci/php:7.2
     environment:
       TYPE: "git"
     <<: *job-template
 
-  php-7.2-zts-git:
+  php-72-zts-git:
     docker:
       - image: circleci/php:7.2-zts
     environment:
       TYPE: "git"
     <<: *job-template
 
-  php-7.3-git:
+  php-73-git:
     docker:
       - image: circleci/php:7.3
     environment:
       TYPE: "git"
     <<: *job-template
 
-  php-7.3-zts-git:
+  php-73-zts-git:
     docker:
       - image: circleci/php:7.3-zts
     environment:
       TYPE: "git"
     <<: *job-template
 
-  php-7.4-git:
+  php-74-git:
     docker:
       - image: circleci/php:7.4
     environment:
       TYPE: "git"
     <<: *job-template
 
-  php-7.4-zts-git:
+  php-74-zts-git:
     docker:
       - image: circleci/php:7.4-zts
     environment:
@@ -193,14 +193,14 @@ jobs:
     <<: *job-template
 
   # windows builds
-  php-7.4-win:
+  php-win:
     executor: win/default
     environment:
       PHP_TYPE: "nts"
       TYPE: "pecl"
     <<: *job-template-win
 
-  php-7.4-zts-win:
+  php-zts-win:
     executor: win/default
     environment:
       PHP_TYPE: "ts"
