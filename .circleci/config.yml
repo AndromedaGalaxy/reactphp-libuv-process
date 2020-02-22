@@ -36,7 +36,6 @@ job-template: &job-template
         path: test-results
 
 job-template-win: &job-template-win
-  shell: powershell.exe
   steps:
     - checkout
     
