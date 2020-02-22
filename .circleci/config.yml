@@ -41,19 +41,18 @@ job-template-win: &job-template-win
     - checkout
     
      # install system dependencies
-    - if ($env:PHP_TYPE -imatch "ts") { choco install php --package-parameters='"/ThreadSafe "' } else { choco install php }
-    - choco install composer
-    - export PATH="$(powershell -Command '("Process", "Machine" | % { [Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", "" } | Select -Unique | % { cygpath $_ }) -Join ":"')"
+    - run: if ($env:PHP_TYPE -imatch "ts") { choco install php --package-parameters='"/ThreadSafe "' } else { choco install php }
+    - run: choco install composer
+    - run: export PATH="$(powershell -Command '("Process", "Machine" | % { [Environment]::GetEnvironmentVariable("PATH", $_) -Split ";" -Replace "\\$", "" } | Select -Unique | % { cygpath $_ }) -Join ":"')"
 
     # install PHP dependencies
-    - $pecl_url = Join-Path "https://windows.php.net/downloads/pecl/releases/uv/0.2.4/php_uv-0.2.4-7.4-" $env:PHP_TYPE "-vc15-x64.zip"
-    - Invoke-WebRequest -Uri $pecl_url -OutFile .\uv.zip
-    - Expand-Archive .\uv.zip -Destination .\uv
-    - Move-Item -Path .\uv\libuv.dll -Destination C:\Windows\System32\libuv.dll
-    - Move-Item -Path .\uv\php_uv.dll -Destination C:\ProgramData\chocolatey\php\ext\php_uv.dll
+    - run: $pecl_url = Join-Path "https://windows.php.net/downloads/pecl/releases/uv/0.2.4/php_uv-0.2.4-7.4-" $env:PHP_TYPE "-vc15-x64.zip" && Invoke-WebRequest -Uri $pecl_url -OutFile .\uv.zip
+    - run: Expand-Archive .\uv.zip -Destination .\uv
+    - run: Move-Item -Path .\uv\libuv.dll -Destination C:\Windows\System32\libuv.dll
+    - run: Move-Item -Path .\uv\php_uv.dll -Destination C:\ProgramData\chocolatey\php\ext\php_uv.dll
     
     # Add extensions to php.ini
-    - Add-Content C:\ProgramData\chocolatey\php\php.ini "`nextension=uv"
+    - run: Add-Content C:\ProgramData\chocolatey\php\php.ini "`nextension=uv"
     
     # Download and cache dependencies
     - restore_cache:
