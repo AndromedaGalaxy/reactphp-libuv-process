@@ -212,19 +212,26 @@ workflows:
   version: 2
   tests:
     jobs:
-      - php-7.1
-      - php-7.1-zts
-      - php-7.2
-      - php-7.2-zts
-      - php-7.3
-      - php-7.3-zts
-      - php-7.4
-      - php-7.4-zts
-      - php-7.1-git
-      - php-7.1-zts-git
-      - php-7.2-git
-      - php-7.2-zts-git
-      - php-7.3-git
-      - php-7.3-zts-git
-      - php-7.4-git
-      - php-7.4-zts-git
+      # pecl builds
+      - php-71
+      - php-71-zts
+      - php-72
+      - php-72-zts
+      - php-73
+      - php-73-zts
+      - php-74
+      - php-74-zts
+
+      # git builds
+      - php-71-git
+      - php-71-zts-git
+      - php-72-git
+      - php-72-zts-git
+      - php-73-git
+      - php-73-zts-git
+      - php-74-git
+      - php-74-zts-git
+
+      # windows builds
+      - php-win
+      - php-zts-win
