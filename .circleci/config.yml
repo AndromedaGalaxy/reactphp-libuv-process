@@ -1,3 +1,5 @@
+version: 2.1
+
 job-template: &job-template
   steps:
     - checkout
@@ -207,7 +209,7 @@ jobs:
     
 
 workflows:
-  version: 2.1
+  version: 2
   tests:
     jobs:
       - php-7.1
