@@ -52,11 +52,8 @@ job-template-win: &job-template-win
     - run: Move-Item -Path .\uv\libuv.dll -Destination C:\tools\php74\libuv.dll
     - run: Move-Item -Path .\uv\php_uv.dll -Destination C:\tools\php74\ext\php_uv.dll
     
-    # Add extensions to php.ini
-    - run: php -v
-    - run: file C:\tools\php74\ext\php_uv.dll
-    - run: cat C:\tools\php74\php.ini | grep extension=
-    - run: $ProgressPreference = 'SilentlyContinue'; Add-Content C:\tools\php74\php.ini "`nextension=C:\tools\php74\ext\php_uv.dll"
+    # Use our php.ini instead of the default
+    - run: Move-Item -Path .\.circleci\php.ini -Destination C:\tools\php74\php.ini -Force
     
     # Download and cache dependencies
     - restore_cache:
