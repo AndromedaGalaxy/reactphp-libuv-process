@@ -51,17 +51,21 @@ job-template-win: &job-template-win
     - run: $ProgressPreference = 'SilentlyContinue'; Expand-Archive .\uv.zip -Destination .\uv
     - run: Move-Item -Path .\uv\libuv.dll -Destination C:\tools\php74\libuv.dll
     - run: Move-Item -Path .\uv\php_uv.dll -Destination C:\tools\php74\ext\php_uv.dll
-    
+
+    - run: $ProgressPreference = 'SilentlyContinue'; $link = 'https://windows.php.net/downloads/pecl/releases/pcov/1.0.6/php_pcov-1.0.6-7.4-'+$env:PHP_TYPE+'-vc15-x64.zip'; Invoke-WebRequest -Uri $link -OutFile .\pcov.zip
+    - run: $ProgressPreference = 'SilentlyContinue'; Expand-Archive .\pcov.zip -Destination .\pcov
+    - run: Move-Item -Path .\uv\php_pcov.dll -Destination C:\tools\php74\ext\php_pcov.dll
+
     # Use our php.ini instead of the default
-    - run: Move-Item -Path .\.circleci\php.ini -Destination C:\tools\php74\php.ini -Force
-    
+    - run: Move-Item -Path .\.circleci\php.ini.win -Destination C:\tools\php74\php.ini -Force
+
     # Download and cache dependencies
     - restore_cache:
         keys:
           - dependencies
 
     - run: composer install --no-interaction
-    #- run: composer require --dev pcov/clobber && vendor\bin\pcov clobber
+    - run: composer require --dev pcov/clobber && vendor\bin\pcov clobber
 
     - save_cache:
         key: dependencies
