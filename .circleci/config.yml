@@ -54,7 +54,7 @@ job-template-win: &job-template-win
 
     - run: $ProgressPreference = 'SilentlyContinue'; $link = 'https://windows.php.net/downloads/pecl/releases/pcov/1.0.6/php_pcov-1.0.6-7.4-'+$env:PHP_TYPE+'-vc15-x64.zip'; Invoke-WebRequest -Uri $link -OutFile .\pcov.zip
     - run: $ProgressPreference = 'SilentlyContinue'; Expand-Archive .\pcov.zip -Destination .\pcov
-    - run: Move-Item -Path .\uv\php_pcov.dll -Destination C:\tools\php74\ext\php_pcov.dll
+    - run: Move-Item -Path .\pcov\php_pcov.dll -Destination C:\tools\php74\ext\php_pcov.dll
 
     # Use our php.ini instead of the default
     - run: Move-Item -Path .\.circleci\php.ini.win -Destination C:\tools\php74\php.ini -Force
