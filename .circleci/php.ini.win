@@ -947,6 +947,7 @@ extension=sqlite3
 ;extension=xmlrpc
 ;extension=xsl
 
+extension=pcov
 extension=uv
 
 ;;;;;;;;;;;;;;;;;;;
