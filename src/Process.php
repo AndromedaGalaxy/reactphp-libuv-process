@@ -60,7 +60,7 @@ class Process implements EventEmitterInterface {
      * @var int
      * @source
      */
-    const DEFAULT_PROCESS_FLAGS_WIN = 16; //\UV::PROCESS_WINDOWS_HIDE;
+    const DEFAULT_PROCESS_FLAGS_WIN = \UV::PROCESS_WINDOWS_HIDE;
     
     /**
      * The maximum timer interval that is allowed.
@@ -365,7 +365,7 @@ class Process implements EventEmitterInterface {
         }
         
         $this->process = $process;
-        $this->pid = (\function_exists('uv_process_get_pid') ? \uv_process_get_pid($process) : 0);
+        $this->pid = \uv_process_get_pid($process);
         
         foreach($this->stdios as $key => $pipe) {
             $pipe = $this->prepareStdio($loop, $pipe, ($this->fdspecs[$key][1] ?? null));

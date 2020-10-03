@@ -2,7 +2,7 @@
 
 This library provides libuv child processes for ReactPHP.
 
-Due to underlying ext-uv circumstances, the PID is only available, as of commit [`082fdfb`](https://github.com/bwoebi/php-uv/commit/082fdfb20387af02956a68ba77dfa78e2ae9c5b8), otherwise the PID is `0`.
+Requires php-uv v0.3+.
 
 # Example
 

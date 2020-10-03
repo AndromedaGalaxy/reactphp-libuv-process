@@ -103,27 +103,16 @@ class ReadablePipeStream implements ReadableStreamInterface {
         
         \uv_read_start($this->pipe, function (\UVPipe $pipe, $nread) {
             if(\is_string($nread)) {
-                $buffer = $nread;
-                $nread = 1;
-            } else {
-                $buffer = \func_get_args()[2] ?? '';
-            }
-            
-            if($nread === \UV::EOF) {
+                $this->emit('data', array($nread));
+            } elseif($nread === \UV::EOF) {
                 $this->emit('end');
                 $this->close();
-                return;
             } elseif($nread < 0) {
                 $e = new \RuntimeException('Unable to read from pipe: '.\uv_strerror($nread));
                 $this->emit('error', array($e));
                 
                 $this->close();
-                return;
-            } elseif($nread === 0) {
-                return; // @codeCoverageIgnore
             }
-            
-            $this->emit('data', array($buffer));
         });
         
         $this->listening = true;
